@@ -27,14 +27,12 @@ export const pushData = (data: Array<Users>, people: People): void => {
 }
 
 export const messageFor = (yourself: boolean, isPositive: boolean = true) => {
-    getUsername('halil hakan (karabay)')
-    getUsername('hakan karabay')
     const action = isPositive ? 'followed' : 'unfollowed'
     return (data: Array<Users>, userInfo: UserInfo) => {
         if (data.length === 0) {
             const msg = yourself
-                ? `<code>${userInfo.username}</code> did not <strong>${action.toLocaleUpperCase()}</strong> anyone since last run 😛`
-                : `No one <strong>${action.toLocaleUpperCase()}</strong> to <code>${userInfo.username}</code> since last run 🤨`
+                ? `${instagramLink(userInfo.username)} did not <strong>${action.toLocaleUpperCase()}</strong> anyone since last run 😛`
+                : `No one <strong>${action.toLocaleUpperCase()}</strong> to ${instagramLink(userInfo.username)} since last run 🤨`
             sendMessage(msg)
             return
         }
@@ -42,10 +40,9 @@ export const messageFor = (yourself: boolean, isPositive: boolean = true) => {
         data.map(({username, full_name}: Users) => {
             const follower = yourself ? userInfo.username : `${full_name} (${username})`
             const following = yourself ? `${full_name} (${username})` : userInfo.username
-            const msg = `${instagramLink(follower)} ${action} to ${instagramLink(following)}`
+            const msg = `${instagramLink(follower)} <strong>${action.toLocaleUpperCase()}</strong> to ${instagramLink(following)}`
 
             sendMessage(msg)
-
         })
     }
 
