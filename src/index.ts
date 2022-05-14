@@ -11,7 +11,6 @@ import {sendMessage} from './service/message'
         const follow = await createInstagramInstance(Instagram)
         await follow.init()
     } catch (e: any) {
-        console.log(e)
         sendMessage(`The program has been crashed with: ${e.statusCode}`)
     }
 })()

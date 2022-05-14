@@ -4,6 +4,10 @@ import ErrnoException = NodeJS.ErrnoException
 
 export class File {
     public static async write(fileName: string, data: string | NodeJS.ArrayBufferView): Promise<void> {
+        const dirPath = `${__dirname}/../../results`
+        if (!fs.existsSync(dirPath)) {
+            await fs.mkdirSync(dirPath)
+        }
         await fs.writeFileSync(fileName, data)
     }
 
