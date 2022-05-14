@@ -8,7 +8,9 @@ const {
 const bot: any = new Telebot(BOT_TOKEN)
 
 const sendMessage = (msg: string): null => {
-    return bot.sendMessage(TELEGRAM_USER, msg)
+    return bot.sendMessage(TELEGRAM_USER, msg, {
+        parseMode: 'html'
+    })
 }
 
 const sayHiMessage = (fullName: string): null => {

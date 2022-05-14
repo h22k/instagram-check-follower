@@ -1,5 +1,6 @@
 import {Follow, UserInfo, Users} from "./follow"
 import {sendMessage} from "../service/message"
+
 const CookieStore = require('tough-cookie-filestore2')
 
 interface People {
@@ -26,12 +27,14 @@ export const pushData = (data: Array<Users>, people: People): void => {
 }
 
 export const messageFor = (yourself: boolean, isPositive: boolean = true) => {
+    getUsername('halil hakan (karabay)')
+    getUsername('hakan karabay')
     const action = isPositive ? 'followed' : 'unfollowed'
     return (data: Array<Users>, userInfo: UserInfo) => {
         if (data.length === 0) {
             const msg = yourself
-                ? `\`${userInfo.username}\` did not ${action} anyone since last run 😛`
-                : `No one ${action} to \`${userInfo.username}\` since last run 🤨`
+                ? `<code>${userInfo.username}</code> did not <strong>${action.toLocaleUpperCase()}</strong> anyone since last run 😛`
+                : `No one <strong>${action.toLocaleUpperCase()}</strong> to <code>${userInfo.username}</code> since last run 🤨`
             sendMessage(msg)
             return
         }
@@ -39,11 +42,29 @@ export const messageFor = (yourself: boolean, isPositive: boolean = true) => {
         data.map(({username, full_name}: Users) => {
             const follower = yourself ? userInfo.username : `${full_name} (${username})`
             const following = yourself ? `${full_name} (${username})` : userInfo.username
-            const msg = `\`${follower}\` ${action} to \`${following}\``
+            const msg = `${instagramLink(follower)} ${action} to ${instagramLink(following)}`
 
             sendMessage(msg)
 
         })
     }
 
+}
+
+const instagramLink = (text: string): string => {
+    return `<a href="https://instagram.com/${getUsername(text)}">${text}</a>`
+}
+
+export const getUsername = (name: string) => {
+
+    if (name.includes('(')) {
+        const regEx = /\(([^)]+)\)/
+        const username = regEx.exec(name)
+        if (!username) {
+            return name
+        }
+        return username.pop()
+    }
+
+    return name
 }
