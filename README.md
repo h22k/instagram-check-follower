@@ -1,0 +1,1 @@
+i will write doc about that small tool

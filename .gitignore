@@ -1,0 +1,6 @@
+.env
+/dist
+/results/*
+notes.txt
+/node_modules
+cookies.json
