@@ -66,7 +66,7 @@ export class Follow {
         const data: Array<Users> = await this.checkingForGivenMethod(method, userInfo.id)
 
         if ( ! isFileExists) {
-            sendMessage(`There is no old record for ${userInfo.username}`)
+            sendMessage(`There is no old record (${method}) for ${userInfo.username}`)
             await File.write(FOLLOWER_FILE, JSON.stringify(data))
         }
 
